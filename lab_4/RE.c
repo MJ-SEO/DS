@@ -160,36 +160,6 @@ int main(){
 	while(re[len] != '\0'){
                 len++;
         }
-/*	
-	for(int i=0; i<len; i++){
-		linkedlist_insert_last(l, &re[i]);
-	}
-	printf("현재 링크드리스트:");
-		
-	while (linkedlist_length(l) > 0) {
-		linkedlist_remove_first(l, &test) ;
-		printf("%c ", test) ;
-	}		
-
-	printf("\n");
-
-	for(int i=0; i<len; i++){
-		linkedlist_insert_last(l, &re[i]);
-	}
-
-	linkedlist_remove_first(l, &dummy);
-
-	printf("맨앞 지운 링크드리스트:");		
-
-	while (linkedlist_length(l) > 0) {
-		int i=0;
-		linkedlist_remove_first(l, &test) ;
-		str[i] = test;
-		printf("%c", str[i]);
-	}		
-	printf("\n");
-
-*/	
 
 	for(int i=0; i<5; i++){
 		printf("%d 번쨰 문장 입력: \n",i+1);
@@ -245,7 +215,7 @@ int main(){
 				linkedlist_remove_first(l, &data);
 				while(1){
 					n = n+1;
-					if(re[i] == ']')
+					if(re[n] == ']')
 						break;
 					if(re[n] == data){
 						for(int i=0; i<linkedlist_length(l); i++){
@@ -270,14 +240,27 @@ int main(){
 			else{
 				return 0;
 			}
+			
+			printf("현재linkedlist l : ");
+			for(int t=0; t<linkedlist_length(l); t++){
+				char test;
+				linkedlist_get(l,t,&test);
+				printf("%c ", test);
+			}			
+				
+	
+			for(int m=0; m<linkedlist_length(l); m++){
+				linkedlist_remove_first(l, &dummy);
+			}
+
+			for(int z=0; z<linkedlist_length(task); z++){
+				char a;
+				linkedlist_get(task,z,&a);
+				linkedlist_insert_first(l, &a);
+			}
 		}  // for문끝(re 길이)
 		
-		
-		for(int i=0; i<linkedlisk_length(task); i++){
-			// l = task
-		}
-		
-		if(strlen(str)<5){
+		if(linkedlist_length(task)<2){
 			tof[i] = 1;
 		}
 		else{
@@ -291,8 +274,6 @@ int main(){
 		else
 			printf("false\n");
 	}
-
-
 
 	printf("입력받은 re: %s\n", re);
 	printf("length: %d\n", len);

@@ -199,71 +199,91 @@ int main(){
 			linkedlist_insert_last(l, &str[index]);
                 	index++;
         	}
-		
-/*		int lee = linkedlist_length(l);
-		printf("현재 저장되어있는 queue: ");
-
-		while (linkedlist_length(l) > 0) {
-			linkedlist_remove_first(l, &test) ;
-			printf("%c ", test) ;
-		}		
-		printf("\n");
-		printf("length: %d", lee);
-		printf("\n");
-*/		
-			
-		for(int n =0; n<len; n++ ){
+		for(int n =0; n<len; n++ ){			
 			if(islower(re[n])){
 				char data;
-				linkedlist_get(l,0,&data);
+				linkedlist_remove_first(l, &data);
 				if(re[n] == data){
-
+					for(int i=0; i<linkedlist_length(l); i++){
+						char s_prime;
+						linkedlist_get(l,i,&s_prime);
+						linkedlist_insert_last(task, &s_prime);
+					}
 				}
 				else{
-
+					tof[i] = 0;
+					break;
 				}
                	 	}
-                	else if(re[n] == '?'){
-				linkedlist_remove_first(l, &dummy);
+                	else if(re[n] == '?'){	
+				char data;
+				linkedlist_remove_first(l, &data);
 				for(int i=0; i<linkedlist_length(l); i++){		
-					char data;
-					linkedlist_get(l,i,&data);	
-					linkedlist_insert_last(task, &data);	
+					char s_prime;
+					linkedlist_get(l,i,&s_prime);	
+					linkedlist_insert_last(task, &s_prime);	
 				}
                 	}
                 	else if(re[n] == '!'){	
 				for(int i=0; i<linkedlist_length(l); i++){		
-					char data;
-					linkedlist_get(l,i,&data);	
-					linkedlist_insert_last(task, &data);	
+					char s_prime;
+					linkedlist_get(l,i,&s_prime);	
+					linkedlist_insert_last(task, &s_prime);	
 				}
-				linkedlist_remove_first(l, &dummy);
+
+				char data;
+				linkedlist_remove_first(l, &data);
 				for(int i=0; i<linkedlist_length(l); i++){		
-					char data;
-					linkedlist_get(l,i,&data);	
-					linkedlist_insert_last(task, &data);	
+					char s_prime;
+					linkedlist_get(l,i,&s_prime);	
+					linkedlist_insert_last(task, &s_prime);	
 				}
                 	}
-                	else if(re[n] == '['){
 
+                	else if(re[n] == '['){		
+				char data;
+				linkedlist_remove_first(l, &data);
+				while(1){
+					n = n+1;
+					if(re[i] == ']')
+						break;
+					if(re[n] == data){
+						for(int i=0; i<linkedlist_length(l); i++){
+							char s_prime;
+							linkedlist_get(l,i,&s_prime);
+							linkedlist_insert_last(task, &s_prime);
+						}
+					}
+				}
                	 	}
-                	else if(re[n] == '*'){ 	
-				linkedlist_remove_first(l, &dummy);
-				linkedlist_insert_last(task, &l);	
+
+                	else if(re[n] == '*'){ 
+				for(int i=0; i<linkedlist_length(l)+1; i++){
+					for(int j=0; j<linkedlist_length(l); j++){
+						char s_prime;
+						linkedlist_get(l,j,&s_prime);
+						linkedlist_insert_last(task, &s_prime);	
+					}
+						linkedlist_remove_first(l, &dummy);
+				}
                 	}
 			else{
-				printf("잘못된 입력");
 				return 0;
 			}
+		}  // for문끝(re 길이)
+		
+		
+		for(int i=0; i<linkedlisk_length(task); i++){
+			// l = task
 		}
-
+		
 		if(strlen(str)<5){
 			tof[i] = 1;
 		}
 		else{
 			tof[i] = 0 ;
 		}
-	}	
+	} // for문 끝 (5번)
 
 	for(int i=0; i<5; i++){
 		if(tof[i] == 1)

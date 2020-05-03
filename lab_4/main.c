@@ -25,9 +25,16 @@ main ()
 
 	linkedlist_remove_last(l, &data) ;
 	printf("%d\n", data) ;
-
-	linkedlist_get(l, 0, &data) ;
+		
+	linkedlist_remove_last(l, &data) ;
 	printf("%d\n", data) ;
+
+	linkedlist_remove_last(l, &data) ;
+	printf("%d\n", data) ;
+
+	linkedlist_remove_last(l, &data) ;
+	printf("%d\n", data) ;
+
 
 	while (linkedlist_length(l) > 0) {
 		linkedlist_remove_first(l, &data) ;
@@ -35,5 +42,13 @@ main ()
 	}
 	printf("\n") ;
 
+	linkedlist_get(l, 0, &data) ;
+	printf("%d\n", data) ;
+
+	linkedlist_get(l, 1, &data) ;
+	printf("%d\n", data) ;
+
+	linkedlist_get(l, 2, &data) ;
+	printf("%d\n", data) ;
 	linkedlist_free(l) ;
 }

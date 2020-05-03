@@ -149,6 +149,7 @@ int main(){
 	linkedlist_t *l;
 	linkedlist_t *task;
 	char dummy;
+	char end = '@';
 	char test;
 
 	l = linkedlist_alloc(sizeof(char));
@@ -169,68 +170,128 @@ int main(){
 			linkedlist_insert_last(l, &str[index]);
                 	index++;
         	}
+		linkedlist_insert_last(l, &end);
+
 		for(int n =0; n<len; n++ ){			
 			if(islower(re[n])){
-				char data;
-				linkedlist_remove_first(l, &data);
-				if(re[n] == data){
-					for(int i=0; i<linkedlist_length(l); i++){
-						char s_prime;	
-						linkedlist_get(l,i,&s_prime);
-						linkedlist_insert_last(task, &s_prime);
+				int c_len = linkedlist_length(l);
+				for(int a=0; a<c_len; a++){
+					char data;
+					linkedlist_remove_first(l,&data);
+					if(data == re[n]){
+						while(1){
+							char next;
+							linkedlist_remove_first(l,&next);
+							a++;	
+							if(next == '@'){
+								linkedlist_insert_last(l, &next);
+								break;
+							}
+						}
+					}
+					else{
+						while(1){
+							linkedlist_remove_first(l, &dummy);
+							a++;
+							if(dummy == '@')
+								break;
+						}
 					}
 				}
-				else{
-					printf("debug\n");
-				}
-               	 	}
-                	else if(re[n] == '?'){	
-				char data;
-				linkedlist_remove_first(l, &data);
-				for(int i=0; i<linkedlist_length(l); i++){		
-					char s_prime;
-					linkedlist_get(l,i,&s_prime);	
-					linkedlist_insert_last(task, &s_prime);	
+			}
+                	else if(re[n] == '?'){
+			     	int c_len = linkedlist_length(l);
+				for(int b=0; b<c_len; b++){
+					linkedlist_remove_first(l, &dummy);	
+					while(1){
+						char next;
+						linkedlist_remove_first(l, &next);
+						b++;
+						linkedlist_insert_last(l, &next);
+						if(next == '@')
+							break;	
+					}
 				}
                 	}
-                	else if(re[n] == '!'){	
-				for(int i=0; i<linkedlist_length(l); i++){		
-					char s_prime;
-					linkedlist_get(l,i,&s_prime);	
-					linkedlist_insert_last(task, &s_prime);	
+                	else if(re[n] == '!'){		
+			     	int c_len = linkedlist_length(l);
+
+				for(int c=0; c<c_len; c++){
+					while(1){
+						char next;
+						linkedlist_get(l,c,&next);
+						c++;
+						linkedlist_insert_last(l, &next);
+						if(next == '@')
+							break;	
+					}
 				}
 
-				char data;
-				linkedlist_remove_first(l, &data);
-				for(int i=0; i<linkedlist_length(l); i++){		
-					char s_prime;
-					linkedlist_get(l,i,&s_prime);	
-					linkedlist_insert_last(task, &s_prime);	
+				for(int d=0; d<c_len; d++){
+					linkedlist_remove_first(l, &dummy);	
+					while(1){
+						char next;
+						linkedlist_remove_first(l, &next);
+						d++;
+						linkedlist_insert_last(l, &next);
+						if(next == '@')
+							break;	
+					}
 				}
                 	}
-                	else if(re[n] == '['){		
-				char data;
-				linkedlist_remove_first(l, &data);
+                	else if(re[n] == '['){
+				char mem[126]={0};
+				int c_len = linkedlist_length(l);
+				for(int v=0; v<c_len; v++){	
+					char data;
+					linkedlist_get(l,v,&data);
+					mem[v] = data;
+						while(1){
+							v++;
+							linkedlist_get(l,v,&dummy);
+							if(dummy == '@')
+								break;
+						}
+				}	
 				while(1){
 					n = n+1;
 					if(re[n] == ']')
-						break;
-					if(re[n] == data){
-						for(int i=0; i<linkedlist_length(l); i++){
-							char s_prime;
-							linkedlist_get(l,i,&s_prime);
-							linkedlist_insert_last(task, &s_prime);
+						break;					
+					if(strchr(mem,re[n])){
+						char data;
+						linkedlist_remove_first(l, &data);
+						for(int e; e<c_len; e++){
+							if(data == re[n]){
+								while(1){
+									char next;
+									linkedlist_remove_first(l,&next);
+									e++;	
+									if(next == '@'){
+										linkedlist_insert_last(l, &next);
+										break;
+								}
+							}
 						}
+							else{
+								while(1){
+									linkedlist_remove_first(l, &dummy);
+									e++;
+									if(dummy == '@')
+										break;
+								}
+							}
+						}
+						break;	
 					}
 				}
                	 	}
                 	else if(re[n] == '*'){
 				int c_len = linkedlist_length(l);
-				for(int i=0; i<c_len+1; i++){
-					for(int j=0; j<linkedlist_length(l); j++){
-						char s_prime;
-						linkedlist_get(l,j,&s_prime);
-						linkedlist_insert_last(task, &s_prime);	
+				for(int q=0; q<c_len; q++){
+					for(int w=0; w<linkedlist_length(l); w++){
+						char next;
+						linkedlist_get(l,w,&next);	
+						linkedlist_insert_last(l, &next);	
 					}
 						linkedlist_remove_first(l, &dummy);
 				}
@@ -239,43 +300,17 @@ int main(){
 				return 0;
 			}
 			
-	/*		if(linkedlist_length(task)<1){
-				tof[i] = 0;
-				break;
-			}
-	*/		
-			printf("현재linkedlist task : ");
-			for(int t=0; t<linkedlist_length(task); t++){
-				char test;
-				linkedlist_get(task,t,&test);
-				printf("%c ", test);
-			}			
-			printf("//  re[n]: %d\n",n);		
-	
-						
-
-			for(int m=0; m<linkedlist_length(l); m++){
-				linkedlist_remove_first(l, &dummy);
-			}
-
-			for(int z=0; z<linkedlist_length(task); z++){
-				char a;
-				linkedlist_remove_first(task, &a);
-				linkedlist_insert_last(l, &a);
-			}
-		
-			printf("현재linkedlist l : ");
+			printf("현재linkedlist: ");
 			for(int t=0; t<linkedlist_length(l); t++){
 				char test;
 				linkedlist_get(l,t,&test);
 				printf("%c ", test);
 			}			
 			printf("//  re[n]: %d\n",n);		
-			printf("\n");
 		
 		}  // for문끝(re 길이)
 		
-		if(linkedlist_length(task)<2){
+		if(linkedlist_length(l)<2){
 			tof[i] = 1;
 		}
 		else{
@@ -292,6 +327,6 @@ int main(){
 
 	printf("입력받은 re: %s\n", re);
 	printf("length: %d\n", len);
-	
+
 	return 0;
 }

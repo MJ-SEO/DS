@@ -140,9 +140,11 @@ linkedlist_get (linkedlist_t * l, int pos, void * e)
 	return 0 ;
 }
 
+
+
 int main(){
 	char re[128];
-	char str[100];
+	char str[128];
 	int tof[5];
 	char output;
 	int len =0;

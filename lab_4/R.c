@@ -250,7 +250,6 @@ int main(){
         first.m = 0;      
         linkedlist_insert_last(s, &first);
 
-
         while(linkedlist_length(l) != 0){
         	    char p;
 		    linkedlist_remove_first(l, &p);
@@ -311,14 +310,14 @@ int main(){
                				 }
 				}
 
-			   	else if(p=='?'){
+			   	else if(p == '?'){
 					int c_len = linkedlist_length(s);
 					for(int k=0;k<c_len;k++){
                     				task c;
                     				linkedlist_remove_first(s,&c);
 						
 						task next;
-						strcpy(next.string,c.string);
+						strcpy(next.string, c.string);
 						RemoveFirst(next.string);	
                      				linkedlist_insert_last(s, &next);		
 						}

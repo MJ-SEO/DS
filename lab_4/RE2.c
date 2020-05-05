@@ -140,27 +140,31 @@ linkedlist_get (linkedlist_t * l, int pos, void * e)
 	return 0 ;
 }
 
+typedef struct{
+	char string[129]
+	int m;
+} task;
+
+
 int main(){
 	char re[128];
 	char str[100];
 	int tof[5];
 	char output;
-	int len =0;
 	linkedlist_t *l;
-	linkedlist_t *task;
+	linkedlist_t *s;
 	char dummy;
-	char end = '@';
 	char test;
 
 	l = linkedlist_alloc(sizeof(char));
-	task = linkedlist_alloc(sizeof(char));
+	s = linkedlist_alloc(sizeof(task));
 	
 	printf("RE 입력: ");
 	scanf("%s", re);
+	
+	for(int i=0; i<strlen(re); i++){
 
-	while(re[len] != '\0'){
-                len++;
-        }
+	}
 
 	for(int i=0; i<5; i++){
 		printf("%d 번쨰 문장 입력: \n",i+1);

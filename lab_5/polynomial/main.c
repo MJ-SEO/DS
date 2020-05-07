@@ -122,7 +122,7 @@ main ()
 
 	term_t t ;
 	t.coef = 1 ; t.expo = 0 ;	polynomial_add_term(p1, &t) ; 
-	t.coef = 3 ; t.expo = 14 ; 	polynomial_add_term(p1, &t) ;
+	t.coef = 3 ; t.expo = 8 ; 	polynomial_add_term(p1, &t) ;
 	t.coef = 2 ; t.expo = 8 ;	polynomial_add_term(p1, &t) ;
 
 	t.coef = 8 ; t.expo = 14 ; 	polynomial_add_term(p2, &t) ;

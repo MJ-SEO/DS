@@ -350,6 +350,7 @@ polynomial_div (polynomial * dividend, polynomial * divisor,
 {
         
   int dividend_coef, dividend_expo, divisor_coef, divisor_expo;
+  term_t dummy;
 
   polynomial * for_m = linkedlist_alloc(sizeof(term_t));
   polynomial * object = linkedlist_alloc(sizeof(term_t)); 
@@ -374,7 +375,9 @@ polynomial_div (polynomial * dividend, polynomial * divisor,
     polynomial_add_term(*quotient, &quo);
 
     polynomial_add_term(for_m, &quo);
-  
+    if(linkedlist_length(for_m)>1){
+      linkedlist_remove_first(for_m, &dummy);
+    }
     clone = polynomial_mult(for_m, divisor);
     object = polynomial_subt(dividend, clone);
     
@@ -388,21 +391,16 @@ polynomial_div (polynomial * dividend, polynomial * divisor,
 
   *remainder = linkedlist_clone(object);
   // 반복문 끝나고 남은 new_ploynomial을 remainder에 넣기.
-
 }
 
 int
 main ()
 {
-        polynomial * p1 ;
-        polynomial * p2 ;
         polynomial * clone;
         polynomial * sub;
         polynomial * dividend;
         polynomial * m;
-
-        p1 = linkedlist_alloc(sizeof(term_t)) ;
-        p2 = linkedlist_alloc(sizeof(term_t)) ;
+        term_t dummy;
 
         char buf[256];
         char newline;
@@ -430,10 +428,15 @@ main ()
         m = polynomial_mult(c, dividend);
         printf("Multi 1: ");
         polynomial_print(m);
-       
+        printf("c의 길이는: %d \n", linkedlist_length(c));
+
         linkedlist_get(dividend,1,&t);
         polynomial_add_term(c, &t);
+        printf("c의 길이는: %d \n", linkedlist_length(c));
 
+        linkedlist_remove_first(c, &dummy);
+        
+         printf("c의 길이는: %d \n", linkedlist_length(c));
         m = polynomial_mult(c, dividend);
         printf("Multi 2: ");
         polynomial_print(m);
@@ -450,8 +453,6 @@ main ()
         polynomial_print(c);
 */
 
-        linkedlist_free(p1) ;
-        linkedlist_free(p2) ;
 
 }
 

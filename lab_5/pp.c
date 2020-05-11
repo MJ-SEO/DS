@@ -353,59 +353,41 @@ polynomial_div (polynomial * dividend, polynomial * divisor,
                             polynomial ** quotient, polynomial ** remainder)
 {
         
-  int dividend_coef=0, dividend_expo=0, divisor_coef=0, divisor_expo=0;
-  term_t dummy;
-	
-  *quotient = linkedlist_alloc(sizeof(term_t));	
-  *remainder = linkedlist_alloc(sizeof(term_t));	
+	*quotient = linkedlist_alloc(sizeof(term_t));
+    	*remainder = linkedlist_clone(dividend);
 
-  polynomial * for_m = linkedlist_alloc(sizeof(term_t));
-  polynomial * object = linkedlist_alloc(sizeof(term_t)); 
-  polynomial * multed = linkedlist_alloc(sizeof(term_t));
-  polynomial * tempt = linkedlist_alloc(sizeof(term_t));
+    	int divisor_expo, dividend_expo, divisor_coef, dividend_coef;
+    	
+	term_t quo;
 
-  object = linkedlist_clone(dividend);
+    	linkedlist_get(divisor, 0, &quo);
+    	divisor_expo = quo.expo;
+    	divisor_coef = quo.coef;
+    	linkedlist_get(*remainder, 0, &quo);
+    	dividend_expo = quo.expo;
+    	dividend_coef = quo.coef;
 
-  while(1){
-    term_t compare_object;
-    linkedlist_get(object, 0, &compare_object);
-    dividend_coef = compare_object.coef;
-    dividend_expo = compare_object.expo;
-    
-    term_t compare_divisor;
-    linkedlist_get(divisor,0, &compare_divisor);
-    divisor_coef = compare_divisor.coef;
-    divisor_expo = compare_divisor.expo;
+    	while (divisor_expo <= dividend_expo){
+    		polynomial *div = linkedlist_clone(divisor);
+        	polynomial *for_m = linkedlist_alloc(sizeof(term_t));
 
-    term_t quo;
-    quo.coef = divisor_coef*dividend_coef; // 곱하기로 인식?
-    quo.expo = dividend_expo-divisor_expo;
-    polynomial_add_term(*quotient, &quo);
+   	     	quo.coef = dividend_coef / divisor_coef;
+       		quo.expo = dividend_expo - divisor_expo;
+        	polynomial_add_term(*quotient, &quo);
+        	
+		polynomial_add_term(for_m, &quo);
+        
+		div = polynomial_mult(div, for_m);
 
-    polynomial_add_term(for_m, &quo);
-    if(linkedlist_length(for_m)>1){
-      linkedlist_remove_first(for_m, &dummy);
+        	*remainder = polynomial_subt(*remainder, div);
+
+        	linkedlist_get(divisor, 0, &quo);
+        	divisor_expo = quo.expo;
+        	divisor_coef = quo.coef;
+        	linkedlist_get(*remainder, 0, &quo);
+        	dividend_expo = quo.expo;
+        	dividend_coef = quo.coef;
     }
-
-    multed = polynomial_mult(for_m, divisor);
-    tempt = polynomial_subt(object, multed);  // 여기
-    object = linkedlist_clone(tempt);   
-
-    term_t out;
-    linkedlist_get(object, 0, &out);
-
-    if(divisor_expo>out.expo){
-      break;
-    }
-  }
-
-  *remainder = linkedlist_clone(object);
-
-  linkedlist_free(for_m);
-  linkedlist_free(object);
-  linkedlist_free(multed);
-  linkedlist_free(tempt);
-  // 반복문 끝나고 남은 new_ploynomial을 remainder에 넣기.
 }
 
 int 

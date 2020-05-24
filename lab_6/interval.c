@@ -117,7 +117,8 @@ void
 arraylist_sort (arraylist_t * l, int (* cmp_elements)(void * e1, void * e2))
 {
 	int i, j, m ;
-	char * t = malloc(l->unit) ;
+	double * t = malloc(l->unit) ;
+
 	for (i = 0 ; i < l->length - 1 ; i++) {
 		m = i ;
 		for (j = i + 1 ; j < l->length ; j++) {
@@ -201,6 +202,23 @@ cmp_string (void * e1, void * e2)
 	return (*s1 - *s2) ;
 }
 
+int
+cmp_double (void *e1, void*e2){
+	double *s1 = *((double **)e1);
+	double *s2 = *((double **)e2);
+
+
+	if(*s1 - *s2<0){
+		return -1;
+	}
+	else if(*s1 - *s2>0){
+		return 1;
+	}
+	else{
+		return 10;
+	}	
+}
+
 void
 print_string (void * p) 
 {
@@ -213,11 +231,10 @@ int
 main () 
 {
 	arraylist_t *l;
-	l = arraylist_alloc(sizeof(float));
+	l = arraylist_alloc(sizeof(double));
 
 	int interval;
 	double temp;
-	double temp2;
 
 	printf("interval 입력");
 	scanf("%d", &interval);
@@ -227,7 +244,6 @@ main ()
 	for(int i=0; i<interval*2; i++){
 		scanf("%lf", &temp);
 		arraylist_insert_last(l,&temp);
-		printf("temp: %lf\n", temp);
 	}
 
 	int len = arraylist_length(l);
@@ -235,10 +251,20 @@ main ()
 	printf("length: %d\n", arraylist_length(l));
 
 	for(int i=0; i<len; i++){
-		arraylist_get(l,i,&temp2);
-		printf("%lf\n", temp2);
+		arraylist_get(l,i,&temp);
+		printf("%lf\n", temp);
 	}
 	
+	int x = cmp_double(&temp, &temp+1);
+	
+	printf("x: %d\n", x);	
+//	arraylist_sort(l,cmp_double);
+
+	for(int i=0; i<len; i++){
+		arraylist_get(l,i,&temp);
+		printf("%lf\n", temp);
+	}
+
 	printf("length: %d\n", arraylist_length(l));
 
 	return 0;

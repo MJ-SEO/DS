@@ -12,40 +12,6 @@ struct arraylist {
 typedef struct arraylist arraylist_t ;
 
 arraylist_t * 
-arraylist_alloc (int unit)  ;
-
-void
-arraylist_free (arraylist_t * l, void (* free_element)(void * e)) ;
-
-int 
-arraylist_length (arraylist_t * l) ;
-
-void
-arraylist_print (arraylist_t * l, void (* print_element)(void * e)) ;
-
-void
-arraylist_insert_first (arraylist_t * l, void * e) ;
-
-void
-arraylist_insert_last (arraylist_t * l, void * e) ;
-
-int 
-arraylist_remove_first (arraylist_t * l, void * e) ;
-
-int 
-arraylist_remove_last (arraylist_t * l, void * e) ;
-
-int
-arraylist_get (arraylist_t * l, int pos, void * e) ;
-
-void
-arraylist_sort (arraylist_t * l, int (* cmp_elements)(void * e1, void * e2)) ;
-
-void
-arraylist_qsort (arraylist_t * l, int (* cmp_elements)(void * e1, void * e2)) ;
-
-
-arraylist_t * 
 arraylist_alloc (int unit) 
 {
 	arraylist_t * l ;
@@ -208,6 +174,7 @@ arraylist_qsort (arraylist_t * l, int (* cmp_elements)(void * e1, void * e2))
 	_arraylist_qsort(l, cmp_elements, l->elements, l->elements + l->length * l->unit) ;
 }
 
+
 void
 free_string (void * p)
 { 
@@ -245,36 +212,34 @@ print_string (void * p)
 int 
 main () 
 {
-	arraylist_t * l ; 
-	l = arraylist_alloc(sizeof(char *)) ;
+	arraylist_t *l;
+	l = arraylist_alloc(sizeof(float));
 
-	FILE * fp = fopen("wordset.txt", "r") ;
-	if (fp == 0x0) {
-		perror("failed to open wordset.txt") ;
-		exit(1) ;
+	int interval;
+	double temp;
+	double temp2;
+
+	printf("interval 입력");
+	scanf("%d", &interval);
+
+	printf("length: %d\n", arraylist_length(l));
+
+	for(int i=0; i<interval*2; i++){
+		scanf("%lf", &temp);
+		arraylist_insert_last(l,&temp);
+		printf("temp: %lf\n", temp);
 	}
 
-	while (!feof(fp)) {
-		char s[256] ;
+	int len = arraylist_length(l);
 
-		int i = 0 ;
-		int c ;
-		while ((c = fgetc(fp)) != '\n' && c != EOF) {
-			s[i] = c ;
-			i++ ;
-		}
-		if (i != 0) {
-			s[i] = 0x0 ;
-			char * str = strdup(s) ;
-			arraylist_insert_last(l, &str) ;
-		}
+	printf("length: %d\n", arraylist_length(l));
+
+	for(int i=0; i<len; i++){
+		arraylist_get(l,i,&temp2);
+		printf("%lf\n", temp2);
 	}
-	fclose(fp) ;
-
-	arraylist_sort(l, cmp_string) ;
-	//arraylist_qsort(l, cmp_string) ;
-	arraylist_print(l, print_string) ;
-	arraylist_free(l, free_string) ;
+	
+	printf("length: %d\n", arraylist_length(l));
 
 	return 0;
 }

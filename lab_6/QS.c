@@ -158,7 +158,7 @@ linkedlist_sort (linkedlist_t * l, int ( cmp_elements)(void * e1, void * e2))
 {
 	node_t * i, * j, * m ;
 
-	int unit = *((int *)(l->element)) ;
+//	int unit = *((int *)(l->element)) ;
 
 	for (i = l->right ; i != l ; i = i->right) {
 		m = i ;
@@ -251,7 +251,7 @@ main ()
 	linkedlist_get(l, n, &s) ;
 	printf("%s\n", s) ;
 
-	//linkedlist_print(l, print_string) ;
+//	linkedlist_print(l, print_string) ;
 	linkedlist_free(l, free_string) ;
 }
 

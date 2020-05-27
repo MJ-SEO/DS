@@ -204,19 +204,22 @@ cmp_string (void * e1, void * e2)
 
 int
 cmp_double (void *e1, void*e2){
-	double *s1 = *((double **)e1);
-	double *s2 = *((double **)e2);
+	
+	double s1 = *((double*)e1);
+	double s2 = *((double*)e2);
 
+	printf("[DEBUG] s1: %lf", s1);
+	printf("       [DEBUG] s2: %lf\n", s2);;
 
-	if(*s1 - *s2<0){
+	if((s1 - s2)<0){
 		return -1;
 	}
-	else if(*s1 - *s2>0){
+	else if((s1 - s2)>0){
 		return 1;
 	}
 	else{
-		return 10;
-	}	
+		return (s1 - s2);
+	}
 }
 
 void
@@ -255,17 +258,18 @@ main ()
 		printf("%lf\n", temp);
 	}
 	
-	int x = cmp_double(&temp, &temp+1);
 	
-	printf("x: %d\n", x);	
-//	arraylist_sort(l,cmp_double);
+	arraylist_sort(l,cmp_double);	
+	
+	printf("--------------------------\n");
 
 	for(int i=0; i<len; i++){
 		arraylist_get(l,i,&temp);
 		printf("%lf\n", temp);
 	}
 
-	printf("length: %d\n", arraylist_length(l));
+
+	printf("length: %d", l->length);
 
 	return 0;
 }

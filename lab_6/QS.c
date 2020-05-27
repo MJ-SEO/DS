@@ -211,7 +211,7 @@ void
 linkedlist_qsort (linkedlist_t * l, int ( cmp_elements)(void * e1, void * e2))
 {
     	node_t* start = l->right;
-//	nodi_t* end = l->left;
+//	node_t* end = l->left;
 	_linkedlist_qsort(l, cmp_elements, start , l);
 }
 

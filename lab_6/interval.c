@@ -238,6 +238,9 @@ main ()
 
 	int interval;
 	double temp;
+	double next;
+	int output=0;
+	double compare[100]={0};
 
 	printf("interval 입력");
 	scanf("%d", &interval);
@@ -246,6 +249,7 @@ main ()
 
 	for(int i=0; i<interval*2; i++){
 		scanf("%lf", &temp);
+		compare[i] = temp;
 		arraylist_insert_last(l,&temp);
 	}
 
@@ -263,13 +267,45 @@ main ()
 	
 	printf("--------------------------\n");
 
+	printf("not sorted\n");
+	for(int i=0; i<len; i++){
+		printf("%lf\n", compare[i]);
+	}
+
+	printf("sorted\n");
 	for(int i=0; i<len; i++){
 		arraylist_get(l,i,&temp);
 		printf("%lf\n", temp);
 	}
 
+/*	printf("remove\n");
 
-	printf("length: %d", l->length);
+	for(int i=0; i<len; i++){
+		arraylist_remove_first(l,&temp);
+		printf("%lf\n", temp);
+	}
+*/
+	
+	for(int i=0; i<len-1; i++){	
+		arraylist_get(l,i,&temp);
+		printf("temp: %lf", temp);
+		arraylist_get(l,i+1,&next);
+		printf("     next: %lf\n", next);
+		int num=0;	
+	
+		for(int j=0; j<len; j+=2){
+			if(compare[j] <= temp && compare[j+1] >= next){
+				num++;	
+			}
+			printf("num: %d\n",num);
+			if(num>output)
+				output = num;
+		}
+	}
+
+
+
+	printf("output: %d\n", output);
 
 	return 0;
 }

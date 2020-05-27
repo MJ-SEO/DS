@@ -159,7 +159,6 @@ linkedlist_sort (linkedlist_t * l, int ( cmp_elements)(void * e1, void * e2))
 	node_t * i, * j, * m ;
 
 //	int unit = *((int *)(l->element)) ;
-
 	for (i = l->right ; i != l ; i = i->right) {
 		m = i ;
 		for (j = i->right ; j != l ; j = j->right) {
@@ -173,12 +172,48 @@ linkedlist_sort (linkedlist_t * l, int ( cmp_elements)(void * e1, void * e2))
 	}
 }
 
+
+void
+_linkedlist_qsort (linkedlist_t *l, int ( cmp_elements)(void * e1, void * e2), node_t * begin, node_t * end){
+
+	if (begin->right == end || begin == l)
+	        return;
+
+    	node_t *lbound = begin->right;
+    	node_t *rbound = end->left;
+    	node_t *pivot = begin;
+
+    	while (lbound != rbound->right && lbound != rbound->right->right) {
+        	while (lbound != end && cmp_elements(lbound->element, pivot->element) <= 0){
+         	   	lbound = lbound->right;
+		}
+        	while (rbound != begin && cmp_elements(rbound->element, pivot->element) > 0){
+	            rbound = rbound->left;
+		}
+        	if (lbound != rbound->right && lbound != rbound->right->right){ 
+ 	       		void *t = lbound->element;
+            		lbound->element = rbound->element;
+            		rbound->element = t;
+
+            		lbound = lbound->right;
+            		rbound = rbound->left;
+        	}
+    	}  
+    	void *t = rbound->element;
+    	rbound->element = pivot->element;
+    	pivot->element = t;
+    
+    	_linkedlist_qsort(l, cmp_elements, begin, rbound->right);
+    	_linkedlist_qsort(l, cmp_elements, rbound->right, end);
+}
+
 void
 linkedlist_qsort (linkedlist_t * l, int ( cmp_elements)(void * e1, void * e2))
 {
-	/* TODO */
+    	node_t* start = l->right;
+//	nodi_t* end = l->left;
+	_linkedlist_qsort(l, cmp_elements, start , l);
 }
-
 
 void
 free_string (void * p)
@@ -219,7 +254,7 @@ main ()
 	linkedlist_t * l ; 
 	l = linkedlist_alloc(sizeof(char *)) ;
 
-	FILE * fp = fopen("wordset.txt", "r") ;
+	FILE * fp = fopen("test.txt", "r") ;
 	if (fp == 0x0) {
 		perror("failed to open wordset.txt") ;
 		exit(1) ;
@@ -242,8 +277,8 @@ main ()
 	}
 	fclose(fp) ;
 
-//	linkedlist_qsort(l, cmp_string) ;
-	linkedlist_sort(l, cmp_string) ;
+	linkedlist_qsort(l, cmp_string) ;
+//	linkedlist_sort(l, cmp_string) ;
 
 	int n ; 
 	char * s ;

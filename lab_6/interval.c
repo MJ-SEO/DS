@@ -263,7 +263,7 @@ main ()
 	}
 	
 	
-	arraylist_sort(l,cmp_double);	
+	arraylist_qsort(l,cmp_double);	
 	
 	printf("--------------------------\n");
 
@@ -286,13 +286,17 @@ main ()
 	}
 */
 	
-	for(int i=0; i<len-1; i++){	
+/*	for(int i=0; i<len-1; i++){	
 		arraylist_get(l,i,&temp);
 		printf("temp: %lf", temp);
 		arraylist_get(l,i+1,&next);
 		printf("     next: %lf\n", next);
 		int num=0;	
-	
+		
+		if(compare[i%2]){
+			
+		}	
+		
 		for(int j=0; j<len; j+=2){
 			if(compare[j] <= temp && compare[j+1] >= next){
 				num++;	
@@ -302,7 +306,25 @@ main ()
 				output = num;
 		}
 	}
+*/
+	for(int i=0; i<len; i++){
+		arraylist_get(l,i,&temp);
+		printf("temp: %lf", temp);
+		arraylist_get(l,i+1,&next);
+		printf("     next: %lf\n", next);
+		int num=0;		
 
+		if(i%2==0){
+			if(compare[i]<=temp && compare[i] > next){
+				num++;
+			}	
+			printf("num: %d\n",num);
+			if(num>output)
+				output = num;
+		}
+
+
+	}
 
 
 	printf("output: %d\n", output);

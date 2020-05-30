@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 typedef 
 	struct _node_t {
@@ -51,7 +52,7 @@ tree_height(tree_t * t)
 }
 
 node_t *
-tree_search (node_t * t, char* key)
+tree_search (node_t * t, int key)
 {
 	if (t->data == key)
 		return t ;
@@ -84,14 +85,15 @@ tree_print (tree_t * t)
 	_tree_print(t, 0) ;
 }
 
-/*
+
 tree_t *
 read_a_tree(char *s)
 {
 	char * begin, * end, * sub ;
 	int n ;
-	char* data ;	
+	int data ;	
 
+	data = atoi(s) ;
 	node_t * t = tree_create_node(data) ;
 
 	for (begin = s + 1 ; *begin != '(' && *begin != ')' && *begin != ',' ; begin++) ;
@@ -116,24 +118,32 @@ read_a_tree(char *s)
 
 	return t ;
 }
-*/
+
 int
 main ()
 {
-	int man, rel;
+	int man =0, rel=0;
+	char temp[100];
 
 	printf("사람 수, 관계 수: ");
-	scanf("%d, %d", &man, &rel);
-	
+	scanf("%d %d", &man, &rel);
+	printf("DEBUG: man: %d rel: %d\n", man, rel);
 		
-
-	node_t arr[man];
+	
 	
 
-	for(int i=0; i<man; i++){
-		arr[i] = 
-	}
-	
+	tree_t * t ;
+	t = tree_create_node("mj");
+
+
+		printf("입력: ");
+		scanf("%s", temp);
+		printf("DEBUG: %s\n", temp);
+		node_t* e = tree_create_node(temp); 
+		tree_add_child(t,e);	
+
+
+	tree_print(t) ;
 
 	return 0 ;
 }

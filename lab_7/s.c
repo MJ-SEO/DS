@@ -123,27 +123,46 @@ int
 main ()
 {
 	int man =0, rel=0;
-	char temp[100];
+	char s[100];
+	char s2[100];	
 
 	printf("사람 수, 관계 수: ");
 	scanf("%d %d", &man, &rel);
 	printf("DEBUG: man: %d rel: %d\n", man, rel);
-		
-	
-	
 
-	tree_t * t ;
+	for(int i=0; i<rel; i++){
+		char an[100];
+		char de[100];
+		printf("두명 입력: \n");
+		scanf("%s %s", an, de);	
+
+		printf("[DEBUG]%s %s", an,de);
+
+		tree_t * a;
+		a = tree_create_node(an);
+		
+		node_t * b;
+		b = tree_create_node(de);
+		tree_add_child(a,b);
+	}
+
+
+/*	tree_t * t ;
 	t = tree_create_node("mj");
 
 
 		printf("입력: ");
-		scanf("%s", temp);
-		printf("DEBUG: %s\n", temp);
-		node_t* e = tree_create_node(temp); 
+		scanf("%s", s);
+		printf("DEBUG: %s\n", s);
+		node_t* e = tree_create_node(s); 
 		tree_add_child(t,e);	
 
-
-	tree_print(t) ;
+		printf("입력: ");
+		scanf("%s", s2);
+		printf("DEBUG: %s\n", s2);
+		node_t* d = tree_create_node(s2); 
+		tree_add_child(e,d);	
+*/
 
 	return 0 ;
 }

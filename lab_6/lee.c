@@ -229,105 +229,69 @@ print_string (void * p)
 	printf("%s\n", s) ;
 }
 
-
-int 
-main () 
+int
+cmp_value (void * e1, void * e2)
 {
-	arraylist_t *l;
-	l = arraylist_alloc(sizeof(double));
+   interval_t * t1 = ((interval_t *) e1) ; 
+   interval_t * t2 = ((interval_t *) e2) ; 
+ 
+   if (0 < t1->value - t2->value)
+       return 1 ;
+   else if (0 == t1->value - t2->value){
+       if(t2->position < t1->position) // t1은 끝점 t2는 시작점
+           return -1 ;
+       else
+           return 1 ;
+   }
+   else
+       return -1 ;
+}
 
-	int interval;
-	double temp;
-	double next;
-	int output=0;
-	double compare[100]={0};
+int
+main()
+{
+   arraylist_t * l ;
+   l = arraylist_alloc(sizeof(interval_t)) ;
+  
+   int n ;
+   scanf("%d", &n) ;
+ 
+   for (int i = 0 ; i < n ; i++) {
+      
+       float num1;
+       float num2;
+       char * end;
+      
+       scanf("%f %f", &num1, &num2) ;
+ 
+       interval_t  t ;
+ 
+       t.value = num1 ;
+       t.position = 0 ;
+       arraylist_insert_last(l, &t) ;
+ 
+       t.value = num2 ;
+       t.position = 1 ;
+       arraylist_insert_last(l, &t) ;  
+   }
+   arraylist_qsort(l, cmp_value) ;
+ 
+   int max = 0 ;
+   int tmp_max = 0 ;
+   interval_t t ;
+   for(int i = 0 ; i < arraylist_length(l) ; i++ ) {
+       arraylist_get(l, i, &t) ;
+       if(t.position == 0) {
+           tmp_max++ ;
+       }
+       else if(t.position == 1) { // 
+           tmp_max-- ;
+       }
+       if(max <= tmp_max)
+           max = tmp_max ;
+   }
+   printf("%d\n", max) ;
 
-	printf("interval 입력");
-	scanf("%d", &interval);
-
-	printf("length: %d\n", arraylist_length(l));
-
-	for(int i=0; i<interval*2; i++){
-		scanf("%lf", &temp);
-		compare[i] = temp;
-		arraylist_insert_last(l,&temp);
-	}
-
-	int len = arraylist_length(l);
-
-	printf("length: %d\n", arraylist_length(l));
-
-	for(int i=0; i<len; i++){
-		arraylist_get(l,i,&temp);
-		printf("%lf\n", temp);
-	}
-	
-	
-	arraylist_qsort(l,cmp_double);	
-	
-	printf("--------------------------\n");
-
-	printf("not sorted\n");
-	for(int i=0; i<len; i++){
-		printf("%lf\n", compare[i]);
-	}
-
-	printf("sorted\n");
-	for(int i=0; i<len; i++){
-		arraylist_get(l,i,&temp);
-		printf("%lf\n", temp);
-	}
-
-	for(int i=0; i<len; i++){
-		arraylist_get(l,i,&temp);
-		printf("temp: %lf", temp);
-		arraylist_get(l,i+1,&next);
-		printf("     next: %lf\n", next);
-		int num=0;		
-
-		if(i%2==0){
-			if(compare[i]<=temp && compare[i] > next){
-				num++;
-			}	
-			printf("num: %d\n",num);
-			if(num>output)
-				output = num;
-		}
-
-
-	}
-
-
-	printf("output: %d\n", output);
-
-/*	printf("remove\n");
-
-	for(int i=0; i<len; i++){
-		arraylist_remove_first(l,&temp);
-		printf("%lf\n", temp);
-	}
-*/
-	
-/*	for(int i=0; i<len-1; i++){	
-		arraylist_get(l,i,&temp);
-		printf("temp: %lf", temp);
-		arraylist_get(l,i+1,&next);
-		printf("     next: %lf\n", next);
-		int num=0;	
-		
-		if(compare[i%2]){
-			
-		}	
-		
-		for(int j=0; j<len; j+=2){
-			if(compare[j] <= temp && compare[j+1] >= next){
-				num++;	
-			}
-			printf("num: %d\n",num);
-			if(num>output)
-				output = num;
-		}
-	}
-*/
 	return 0;
 }
+

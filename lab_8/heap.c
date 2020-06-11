@@ -98,9 +98,25 @@ heap_pop (heap_t * h, void * buf)
 {
 	if (h->size == 0)
 		return 1 ;
+	memcpy(buf, arr(h, 1), h->usize);
+	swap(h, 1, h->size);
+	h->size -= 1;
 
-	/*TODO*/
+	for (int i = 1; (left(i) <= h->size && cmp(h, i, left(i)) < 0) || (right(i) <= h->size && cmp(h, i, right(i)) < 0);){
 
+		if (left(i) > h->size){
+			break;
+		}
+
+		if (right(i) > h->size || cmp(h, left(i), right(i)) > 0){				swap(h, i, left(i));
+			i = left(i);
+		}
+		else if (cmp(h, right(i), left(i)) > 0){
+			swap(h, i, right(i));
+			i = right(i);
+		}
+	}
+//
 	return 0 ;
 }
 
@@ -135,22 +151,27 @@ string_cmp (void *e1, void *e2)
 int 
 main ()
 {
-	char * inputs[7] = {"necessary", "correct", "absent", "type", "because", "further", 0x0} ;
-	int i ;
+	int n;
+//	char* inputs[7] = { "necessary", "correct", "absent", "type", "because", "further", 0x0 };
+  	char* input[1025];
 
-	heap_t * h = heap_create(5, sizeof(char *), string_cmp) ;
+  // printf("숫자 입력: ");
+  	scanf("%d", &n);
+	heap_t* h = heap_create(n, sizeof(char*), string_cmp);
 
-	for (i = 0 ; inputs[i] != 0x0 ; i++) {
-		heap_push(h, &(inputs[i])) ;
-		char * s ;
-		heap_top(h, &s) ;
+	for (int i = 0; i<n; i++) {
+      	input[i] = (char *)malloc(sizeof(char) * 256);
+      	scanf("%s", input[i]);
+		heap_push(h, &(input[i]));
+		char* s;
+		heap_top(h, &s);
 	}
 
 	while (heap_size(h) > 0) {
-		char * s = 0x0 ;
-		heap_pop(h, &s) ;
-		printf("%s\n", s) ;
+		char* s = 0x0;
+		heap_pop(h, &s);
+		printf("%s\n", s);
 	}
 
-	return 0 ;
+	return 0;
 }
